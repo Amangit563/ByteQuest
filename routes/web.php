@@ -35,6 +35,6 @@ Route::middleware('auth')->group(function(){
     Route::delete('/product-delete/{id}', [WebProductController::class, 'deleteProduct']);
 
     Route::get('/product-edit/{id}', [ProductController::class, 'editModalShowData']);
-    Route::post('/product-update/{id}', [ProductController::class, 'update'])->name('product.update');
+    Route::post('/product-update/{id}', [ProductController::class, 'productUpdate']);
 });
 

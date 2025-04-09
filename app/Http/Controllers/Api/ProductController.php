@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -67,40 +68,61 @@ class ProductController extends Controller
     }
 
 
+    // ********************  Update Product  *******************
+
     public function productUpdate(Request $request, $id)
-{
-    $product = Product::findOrFail($id);
-
-    $product->name = $request->name;
-    $product->price = $request->price;
-    $product->description = $request->description;
-
-    // Check if image file exists
-    if ($request->hasFile('image')) {
-        
-        // Delete Old Image
-        if($product->image){
-            Storage::delete('public/products/'.$product->image);
+    {
+        $validator = Validator::make($request->all(), [
+            'name'        => 'required|string|max:255',
+            'price'       => 'required|numeric',
+            'description' => 'required|string',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+    
+        if($validator->fails()){
+            return response()->json([
+                'status' => 400,
+                'message' => $validator->errors()->first()
+            ]);
         }
+        
+        $product = Product::findOrFail($id);
+    
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->description = $request->description;
+    
+        // Image update
+        if($request->hasFile('image')){
 
-        // Store New Image
-        $file = $request->file('image');
-        $filename = time().'_'.$file->getClientOriginalName();
-        $file->storeAs('public/products/', $filename);
-        $product->image = $filename;
+            // Purani image delete kar do
+            if(Storage::exists('public/products/'.$product->image)){
+                Storage::delete('public/products/'.$product->image);
+            }
+
+            // New image upload
+            $file = $request->file('image');
+            $filename = time().'_'.$file->getClientOriginalName();
+
+            // Upload image in storage/app/public/products
+            $file->storeAs('products', $filename, 'public');  
+
+            // Database me image name save
+            $product->image = $filename;
+        }// Image update
+        $product->save();
+    
+        return response()->json([
+            'status' => 200,
+            'message' => 'Product Updated Successfully',
+            'data' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'description' => $product->description,
+                'image' => $product->image,
+                'image_url' => asset('storage/products/' . $product->image),
+            ],
+        ]);
     }
-
-    $product->save();
-
-    return response()->json([
-        'status' => 200,
-        'message' => 'Product Updated Successfully',
-        'data' => [
-            'name' => $product->name,
-            'price' => $product->price,
-            'description' => $product->description,
-            'image_url' => asset('storage/products/'.$product->image),
-        ]
-    ]);
-}
 }

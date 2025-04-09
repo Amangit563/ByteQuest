@@ -118,12 +118,13 @@
                     <label>Description:</label>
                     <input type="text" name="description" id="edit_description" class="form-control">
                     <label>Image:</label>
-                    <input type="file" name="image" id="edit_image" class="form-control">
-                    <img id="previewImage" src="" width="100" height="100" class="mt-3">
+                    <input type="file" name="image" id="edit_image" class="form-control" value="">
+                    <img id="previewImage" src="" width="100" height="100" class="mt-3">>
+                    
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Update Product</button>
+                    <button type="submit" class="btn btn-primary updateProdductData">Update Product</button>
                 </div>
             </form>
         </div>
@@ -208,6 +209,7 @@
                 $('#edit_price').val(response.data.price);
                 $('#edit_description').val(response.data.description);
                 // $('#edit_image').val(response.data.image);
+                // $('#oldImageName').text(response.data.image);
 
                 $('#previewImage').attr('src', '/storage/products/' + response.data.image);
 
@@ -217,15 +219,21 @@
     });
 
     // Update Category
-    function updateProduct(id) 
-    {
-        let formData = new FormData($('#updateProductForm')[0]);
+    $('.updateProdductData').click(function(e){
+        alert("ASDFASdf");
+        e.preventDefault();
 
+    var id = $('#product_id').val();
+
+    // var formData = new FormData('#editProductForm'); // FormData object banaya
+    var formData = new FormData($('#editProductForm')[0]);  // Correct way
+
+    formData.append('id', id);
         $.ajax({
             url: '/product-update/' + id,
             type: 'POST',
             data: formData,
-            contentType: false,
+            contentType: false,     
             processData: false,
             success: function(response) {
                 if(response.status == 200) {
@@ -237,14 +245,19 @@
                     $('#row-' + id).find('td:eq(4) img').attr('src', response.data.image_url);
 
                     alert(response.message);
-                    $('#updateProductModal').modal('hide');
+                    $('#editProductModal').modal('hide');
                 }
             },
-            error: function() {
+            error: function(xhr) {
+            // Yeh code tab chalega jab backend error bhejega
+            if(xhr.responseJSON && xhr.responseJSON.message){
+                alert(xhr.responseJSON.message);  
+            } else {
                 alert('Something went wrong!');
             }
+        }
         });
-    }
+    });
 
 // ******************************************  Udate Category Details  **************************************************************
 
