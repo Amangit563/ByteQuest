@@ -6,6 +6,9 @@ use App\Http\Controllers\Web\{WebUserController, WebProductController};
 use App\Models\User;
 use App\Models\Product;
 
+
+
+// ****************************  Public Access Route  ********************************
 Route::get('/', function () {
     return view('Login');
 })->name('login');
@@ -20,24 +23,36 @@ Route::get('/register', function () {
 Route::post('/register', [UserRegisterController::class, 'store'])->name('register.store');
 
 
+
+
+// ****************************  Unauthenticated Person Access Route  ********************************
+
 Route::middleware('auth')->group(function(){
+
+    Route::get('/home', [WebProductController::class, 'dashboard'])->name('home');
+
+    Route::get('/about', function () {
+        return view('about');
+    });
+
+    // ******************************  Product Show , Create, and  Update  ***************************************
 
     Route::get('/show_products', [WebProductController::class, 'showAllProducts'])->name('showproducts');
 
     Route::post('/create_products', [ProductController::class, 'createProduct'])->name('createproducts');
-
-    Route::get('/home', [WebProductController::class, 'dashboard'])->name('home');
 
     Route::delete('/product-delete/{id}', [WebProductController::class, 'deleteProduct']);
 
     Route::get('/product-edit/{id}', [ProductController::class, 'editModalShowData']);
     Route::post('/product-update/{id}', [ProductController::class, 'productUpdate']);
 
-    Route::get('/logout', [WebUserController::class,'webUserLogout'])->name('logout');
+    // ******************************  Product Show , Create, and  Update  ***************************************
 
-    Route::get('/about', function () {
-        return view('about');
-    });
+
+
+    // ****************************  LogOut  ********************************
+
+    Route::get('/logout', [WebUserController::class,'webUserLogout'])->name('logout');
 
 });
 

@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+
+    // **********************  Create Product *********************************
+
     public function createProduct(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -22,7 +25,10 @@ class ProductController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => "Validation Error!!!",'error'  => $validator->errors()], 422);
+            return response()->json([
+                'message' => "Validation Error!!!",
+                'error'  => $validator->errors()
+            ], 422);
         }
 
         $imageName = null;
@@ -49,14 +55,17 @@ class ProductController extends Controller
         ]);
     }
 
-    // API Show Products
-    public function apiShowProducts()
+    // ************************************  Show All Product User Wise  *****************************
+
+    public function userShowAllProducts()
     {
-        $admin = Auth::guard('api')->user();
+        $user = Auth::guard('api')->user();
         return response()->json([
-            'products' => Product::where('admin_id', $admin->id)->get(),
+            'products' => Product::where('admin_id', $user->id)->get(),
         ]);
     }
+
+
 
     // ***************  Edit Modal show Data  ******************
 
@@ -82,7 +91,7 @@ class ProductController extends Controller
         if($validator->fails()){
             return response()->json([
                 'status' => 400,
-                'message' => $validator->errors()->first()
+                'message' => $validator->errors()
             ]);
         }
         

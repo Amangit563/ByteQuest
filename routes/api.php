@@ -14,17 +14,24 @@ Route::get('/user', function (Request $request) {
 Route::group(['prefix' => 'auth' ], function ($router) {
 
     Route::post('/user/register',[UserController::class, 'userRegister']);
-    Route::post('/login',[UserController::class, 'login']);
+    Route::post('/login',[UserController::class, 'apiLogin']);
 
 });
 
 
 Route::middleware(['auth:api'])->group(function(){
-    Route::get('/product-edit/{id}', [ProductController::class, 'editModalShowData']);
-    Route::delete('/product-delete/{id}', [WebProductController::class, 'deleteProduct']);
-    Route::post('/logout', [UserController::class, 'logout']);
 
-    Route::get('/profile', [UserController::class, 'index'])->name('profile');
-    Route::post('products', [ProductController::class, 'store']);
+    Route::post('/create/products', [ProductController::class, 'createProduct']);
+
+    Route::get('/user/show_product', [ProductController::class, 'userShowAllProducts']);
+
+    Route::get('/product-edit/{id}', [ProductController::class, 'editModalShowData']);
+
+    Route::post('/product-update/{id}', [ProductController::class, 'productUpdate']);
+
+    Route::delete('/product-delete/{id}', [WebProductController::class, 'deleteProduct']);
+
+    Route::post('/logout', [UserController::class, 'logout']);
+    
 
 });

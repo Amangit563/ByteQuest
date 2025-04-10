@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class UserController extends Controller
@@ -90,13 +91,6 @@ class UserController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
-
-    // **********************  User Logout  ************************
-
-    public function refresh()
-    {
-        return $this->respondWithToken(auth()->refresh());
-    }
 
     protected function respondWithToken($token)
     {
