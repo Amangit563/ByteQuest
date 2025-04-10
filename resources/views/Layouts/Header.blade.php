@@ -12,12 +12,12 @@
         <div class="d-flex">
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Profile
+                    Logout
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                    <li><a class="dropdown-item" href="{{ route('profile') }}">Manage Profile</a></li>
+                    <!-- <li><a class="dropdown-item" href="{{ route('profile') }}">Manage Profile</a></li> -->
                     <li>
-                        <a href="javascript:void(0)" onclick="logoutUser()" class="dropdown-item">Logout</a>
+                        <a href="{{ route('logout') }}"  class="dropdown-item" onclick="return confirm('Are you sure you want to logout?')">🔒 Logout</a>
                     </li>
                 </ul>
             </div>

@@ -34,4 +34,12 @@ class WebUserController extends Controller
     
         return back()->with('error', 'Invalid Credentials');
     }
+
+
+    // *******************************  Logout  **********************
+
+    public function webUserLogout(){
+        Auth::logout();
+        return redirect('/')->with('message', 'Logout Successfully');
+    }
 }

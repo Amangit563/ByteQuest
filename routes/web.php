@@ -19,10 +19,6 @@ Route::get('/register', function () {
 
 Route::post('/register', [UserRegisterController::class, 'store'])->name('register.store');
 
-Route::get('/about', function () {
-    return view('about');
-});
-
 
 Route::middleware('auth')->group(function(){
 
@@ -36,5 +32,12 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/product-edit/{id}', [ProductController::class, 'editModalShowData']);
     Route::post('/product-update/{id}', [ProductController::class, 'productUpdate']);
+
+    Route::get('/logout', [WebUserController::class,'webUserLogout'])->name('logout');
+
+    Route::get('/about', function () {
+        return view('about');
+    });
+
 });
 
