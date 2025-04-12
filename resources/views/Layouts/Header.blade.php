@@ -15,7 +15,6 @@
                     Logout
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                    <!-- <li><a class="dropdown-item" href="{{ route('profile') }}">Manage Profile</a></li> -->
                     <li>
                         <a href="{{ route('logout') }}"  class="dropdown-item" onclick="return confirm('Are you sure you want to logout?')">🔒 Logout</a>
                     </li>

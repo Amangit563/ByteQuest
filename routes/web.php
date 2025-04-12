@@ -20,7 +20,7 @@ Route::get('/register', function () {
     return view('Register');
 });
 
-Route::post('/register', [UserRegisterController::class, 'store'])->name('register.store');
+Route::post('/register', [WebUserController::class, 'store'])->name('register.store');
 
 
 

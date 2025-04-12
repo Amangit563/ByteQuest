@@ -80,8 +80,6 @@
                             </td>
                             <td>
 
-                                <button class="btn btn-sm btn-success showallproductdetail" data-id="{{$product->id}}" data-bs-toggle="modal" >Sub Category</button>
-
                                 <button class="btn btn-sm btn-secondary editProductBtn" data-id="{{$product->id}}" data-bs-toggle="modal">Edit</button>
 
                                 <button class="btn btn-sm btn-danger deleteCategory" onclick="deleteProduct({{ $product->id }})"  >Delete</button>
@@ -119,7 +117,7 @@
                     <input type="text" name="description" id="edit_description" class="form-control">
                     <label>Image:</label>
                     <input type="file" name="image" id="edit_image" class="form-control" value="">
-                    <img id="previewImage" src="" width="100" height="100" class="mt-3">>
+                    <img id="previewImage" src="" width="100" height="100" class="mt-3">
                     
                 </div>
 
@@ -167,7 +165,6 @@
                                     <img src="/storage/products/${response.data.image}" alt="Product Image" width="60" height="60" style="border-radius: 50%">
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-success showallproductdetail" data-id="${response.data.id}" data-bs-toggle="modal">Sub Category</button>
 
                                     <button class="btn btn-sm btn-secondary editCategoryBtn" data-id="${response.data.id}" data-bs-toggle="modal">Edit</button>
 
@@ -220,7 +217,6 @@
 
     // Update Category
     $('.updateProdductData').click(function(e){
-        alert("ASDFASdf");
         e.preventDefault();
 
     var id = $('#product_id').val();
